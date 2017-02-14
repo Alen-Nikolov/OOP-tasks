@@ -13,6 +13,16 @@ var gsm={
     },
     removeSimCard:function(){
         this.hasSimCard=false;
+    },
+    call:function(receiver, duration){
+        if(duration<0||this.simMobileNumber==receiver
+        ||this.hasSimCard==false){
+            return;
+        }
+        this.lastOutgoingCall=receiver.simMobileNumber;
+        receiver.lastIncomingCall=this.simMobileNumber;
+        this.outgoingCallsDuration+=duration;
+
     }
 };
 
@@ -23,3 +33,6 @@ var call={
     duration:0,
         
 };
+gsm.call("0896323423",3);
+console.log(gsm.lastOutgoingCall);
+console.log(gsm.outgoingCallsDuration);
