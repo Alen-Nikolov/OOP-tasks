@@ -16,7 +16,3 @@ var computer = {
         }
     }
 };
-computer.changeOperationSystem("IOS");
-console.log(computer.operationSystem);
-computer.useMemory(11);
-console.log(computer.freeMemory);
