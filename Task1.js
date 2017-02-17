@@ -7,23 +7,27 @@ function Employee(name, currentTask,hoursLeft){
     this.name=name;
     this.currentTask=currentTask;
     this.hoursLeft=hoursLeft;
-    this.work=function(){
-        if(currentTask.workingHours>=this.hoursLeft){
-            currentTask.workingHours-=this.hoursLeft;
-            this.hoursLeft=0;
-        } else{
-            this.hoursLeft-=currentTask.workingHours;
-            currentTask.workingHours=0;
-        }
-    },
-    this.showReport=function(){
-        console.log("Ime: "+this.name);
-        console.log("Zadacha: "+currentTask.name);
-        console.log("Ostavashti chasove na rabotnika: "+this.hoursLeft);
-        console.log("Ostavashti chasove ot zadachata: "+currentTask.workingHours)
-    }
 }
-var task=new Task("miene",7);
-var p=new Employee("Taskomir",task,8 );
+Employee.prototype.work=function(){
+    if(this.currentTask instanceof Task && this.currentTask!=null && !isNaN(this.hoursLeft) && this.hoursLeft>=0){
+        if(this.currentTask.workingHours>this.hoursLeft){
+            this.currentTask.workingHours-=this.hoursLeft;
+            this.hoursLeft=0;
+            this.showReport();
+        } else {
+            this.hoursLeft-=this.currentTask.workingHours;
+            this.currentTask.workingHours=0;
+            this.showReport();
+        }
+    }
+} 
+Employee.prototype.showReport=function(){
+    console.log('Name: '+this.name);
+    console.log('Current Task: '+this.currentTask.name);
+    console.log('Hours left to work: '+this.hoursLeft);
+    console.log('Hours left to complete task: '+this.currentTask.workingHours);
+}
+var task=new Task("miene",8);
+var p=new Employee("Ceko kirkata",task,4 );
 p.work();
-p.showReport();
+
