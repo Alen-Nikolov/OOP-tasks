@@ -6,37 +6,40 @@ function Student(name,subject,grade,yearInCollege,age,hasDegree,money){
     this.age=age;
     this.hasDegree=hasDegree;
     this.money=money;
-    this.upYear=function(){
-        if(this.yearInCollege<4){
+}
+    Student.prototype.upYear=function(){
+        if(this.yearInCollege<4 && this.hasDegree==false){
             this.yearInCollege++;
         }
-        else{
-            hasDegree=true;
+        if(this.yearInCollege==4 && !this.hasDegree){
+            this.hasDegree=true;
             console.log("You got your degree in somethingology");
         }
+      
     }
-    this.receiveScholarship=function(min, amount){
+    Student.prototype.receiveScholarship=function(min, amount){
         if(this.grade>=min && this.age<30){
             this.money+=amount;
         }
         return this.money;
     }
-}
+
 function StudentGroup(groupSubject){
     this.groupSubject=groupSubject;
     this.students=[];
     this.freePlaces=5;
-    this.addStudent=function(student){
-        if(student.subject===this.groupSubject && this.freePlaces>0){
+}
+    StudentGroup.prototype.addStudent=function(student){
+        if(student.subject===this.groupSubject && this.freePlaces>0 && student instanceof Student){
             this.students.push(student);
             this.freePlaces--;
         }
     }
-    this.emptyGroup=function(){
+    StudentGroup.prototype.emptyGroup=function(){
         this.students=[];
         this.freePlaces=5;
     }
-    this.theBestStudentName=function(){
+    StudentGroup.prototype.theBestStudentName=function(){
         var maxGrade=-Infinity
         var bestStudent="";
         for(var index=0;index<this.students.length;index++){
@@ -47,7 +50,7 @@ function StudentGroup(groupSubject){
         }
         return bestStudent;
     }
-    this.printStudentsInGroup=function(){
+    StudentGroup.prototype.printStudentsInGroup=function(){
         for(var index=0;index<this.students.length;index++){
             console.log("Name: "+this.students[index].name);
             console.log("Grade: "+this.students[index].grade);
@@ -57,14 +60,18 @@ function StudentGroup(groupSubject){
             console.log();
         }
     }
-}
-var student1=new Student("Alen","geography",4.4,2,21,false,3000);
+var student1=new Student("Alen","geography",4.4,3,21,false,3000);
 var student2=new Student("Ban Ki Moon","geography",5.5,3,34,false,2000);
 var student3=new Student("Orli","geography",5,2,39,true,10.5);
 var stdGroup=new StudentGroup("geography");
 stdGroup.addStudent(student1);
 stdGroup.addStudent(student2);
 stdGroup.addStudent(student3);
-stdGroup.printStudentsInGroup();
+student1.upYear();
+student1.upYear();
+
+console.log(student1.yearInCollege);
+console.log(student1.hasDegree);
+console.log(stdGroup.theBestStudentName());
 
 
